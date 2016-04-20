@@ -6,16 +6,31 @@ php:
     - 5.5
     - 5.6
     - hhvm
+    - 7.0
 
 env:
     - WP_VERSION=latest WP_MULTISITE=0
     - WP_VERSION=latest WP_MULTISITE=1
-    - WP_VERSION=4.1 WP_MULTISITE=0
-    - WP_VERSION=4.1 WP_MULTISITE=1
-    - WP_VERSION=4.0 WP_MULTISITE=0
-    - WP_VERSION=4.0 WP_MULTISITE=1
-    - WP_VERSION=3.9 WP_MULTISITE=0
-    - WP_VERSION=3.9 WP_MULTISITE=1
+    # Current stable
+    - WP_VERSION=4.4.2 WP_MULTISITE=0
+    - WP_VERSION=4.4.2 WP_MULTISITE=1
+    # Previous Stable
+    - WP_VERSION=4.4.1 WP_MULTISITE=0
+    - WP_VERSION=4.4.1 WP_MULTISITE=1
+    # earliest supported that includes phpunit tests in core WP
+    - WP_VERSION=3.7 WP_MULTISITE=1
+    - WP_VERSION=3.7 WP_MULTISITE=0
+
+matrix:
+  exclude:
+    - php: hhvm
+      env: WP_VERSION=3.7 WP_MULTISITE=0
+    - php: hhvm
+      env: WP_VERSION=3.7 WP_MULTISITE=1
+    - php: 7.0
+      env: WP_VERSION=3.7 WP_MULTISITE=0
+    - php: 7.0
+      env: WP_VERSION=3.7 WP_MULTISITE=1
 
 before_script:
     - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION 
